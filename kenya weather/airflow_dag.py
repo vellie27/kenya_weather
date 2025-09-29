@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 import sys
-sys.path.append('/path/to/your/project')
+
 
 from kenya_weather_dashboard import KenyaWeatherDashboard
 
@@ -30,4 +30,5 @@ run_task = PythonOperator(
     task_id='run_pipeline',
     python_callable=run_pipeline,
     dag=dag
+
 )
