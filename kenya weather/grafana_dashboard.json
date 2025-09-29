@@ -1,0 +1,82 @@
+{
+  "dashboard": {
+    "title": "Kenya Weather Aware E-Commerce Dashboard",
+    "tags": [
+      "kenya",
+      "weather",
+      "ecommerce",
+      "agriculture"
+    ],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "Delivery Performance by City",
+        "type": "stat",
+        "targets": [
+          {
+            "rawSql": "SELECT city, AVG(on_time_delivery_rate) as avg_rate FROM operations_kpis GROUP BY city",
+            "format": "table"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "yellow",
+                  "value": 80
+                },
+                {
+                  "color": "green",
+                  "value": 95
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "Weather Risk Forecast",
+        "type": "table",
+        "targets": [
+          {
+            "rawSql": "SELECT city, date, delivery_risk_index, daily_rainfall, max_wind_speed FROM weather_forecasts WHERE date >= CURRENT_DATE ORDER BY date, city",
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "title": "Sales by Category",
+        "type": "piechart",
+        "targets": [
+          {
+            "rawSql": "SELECT p.category, COUNT(o.order_id) as orders FROM orders o JOIN products p ON o.product_id = p.product_id GROUP BY p.category",
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "title": "Agricultural Advisory",
+        "type": "table",
+        "targets": [
+          {
+            "rawSql": "SELECT city, crop, planting_recommended, reason FROM agricultural_advisory WHERE date >= CURRENT_DATE - INTERVAL '3 days'",
+            "format": "table"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    }
+  }
+}
