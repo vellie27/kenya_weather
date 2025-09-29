@@ -2,9 +2,6 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-import sys
-
-
 from kenya_weather_dashboard import KenyaWeatherDashboard
 
 default_args = {
@@ -32,3 +29,4 @@ run_task = PythonOperator(
     dag=dag
 
 )
+
